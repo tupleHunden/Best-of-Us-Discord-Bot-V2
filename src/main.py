@@ -2,12 +2,12 @@
     This is a rewrite of the Discord Bot found at: github.com/tupleHunden/Best-of-Us-Discord-Bot/
 """
 
-import os                         # This will help us work with dotenv easier
-import random                     # This will help us with any random selection generation
-import discord                    # This is how we will interact with Discord
-import requests                   # This will help us work with API Requests easier
+import os  # This will help us work with dotenv easier
+import random  # This will help us with any random selection generation
+import discord  # This is how we will interact with Discord
+import requests  # This will help us work with API Requests easier
 from discord.ext import commands  # Command Extension of the Discord Library
-from dotenv import load_dotenv    # dotenv will make it easier to use sensitive tokens/info
+from dotenv import load_dotenv  # dotenv will make it easier to use sensitive tokens/info
 
 # This will configure the dotenv file to read sensitive tokens for the slack bot
 load_dotenv()
@@ -144,6 +144,34 @@ async def player_lookup(ctx, args):
     embed = discord.Embed(title=specific_character_name['name'], description=zkill)
 
     await ctx.send(embed=embed)
+
+
+@bot.command('lab')
+async def poe_lab_ladder(ctx):
+    """
+        poe_lab_ladder() will return the top 3 players on the Path of Exile Lab ladder
+    """
+    api_request = requests.get("http://api.pathofexile.com/ladders/"
+                               "League?type=labyrinth&difficulty=Merciless")
+
+    api_json = api_request.json()
+
+    first_place = discord.Embed(title=f"1st Place\n{api_json['entries'][0]['character']['name']}",
+                                description=f"{api_json['entries'][0]['character']['class']}\n "
+                                            f"Time: {api_json['entries'][0]['time']}")
+
+    second_place = discord.Embed(title=f"2nd Place\n{api_json['entries'][1]['character']['name']}",
+                                 description=f"{api_json['entries'][1]['character']['class']}\n "
+                                             f"Time: {api_json['entries'][1]['time']}")
+
+    third_place = discord.Embed(title=f"3rd Place\n{api_json['entries'][2]['character']['name']}",
+                                description=f"{api_json['entries'][2]['character']['class']}\n "
+                                            f"Time: {api_json['entries'][2]['time']}")
+
+    await ctx.send(embed=first_place)
+    await ctx.send(embed=second_place)
+    await ctx.send(embed=third_place)
+
 
 # This will bring the bot online.
 bot.run(DISCORD_BOT_TOKEN)
