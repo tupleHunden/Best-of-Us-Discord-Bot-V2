@@ -37,7 +37,7 @@ async def on_member_join(member):
     await member.dm_channel.send(f'Hi {member.name}, welcome to my Discord server!')
 
 
-@bot.command('chuck')
+@bot.command('chuck', help="This will provide the user with a random chuck norris joke")
 async def chuck_norris(ctx):
     """
         chuck_norris() will provide the user with a random chuck norris joke.
@@ -49,7 +49,7 @@ async def chuck_norris(ctx):
         await ctx.send(chuck_response['value'])
 
 
-@bot.command('github')
+@bot.command('github', help='This will provide a link to the repo')
 async def github(ctx):
     """
         github() will provide a link to the repo.
@@ -57,7 +57,7 @@ async def github(ctx):
     await ctx.send('https://github.com/tupleHunden/Best-of-Us-Discord-Bot-V2')
 
 
-@bot.command('bah')
+@bot.command('bah', help='This will provide a link to the DOD BAH Calculator')
 async def bah(ctx):
     """
         bah() will provide a link to the DOD BAH Calculator.
@@ -65,7 +65,7 @@ async def bah(ctx):
     await ctx.send('https://www.defensetravel.dod.mil/site/bahCalc.cfm')
 
 
-@bot.command('invite')
+@bot.command('invite', help='This will provide an invite to the Discord Server')
 async def invite(ctx):
     """
         invite() will provide a link to the Discord Server.
@@ -73,7 +73,7 @@ async def invite(ctx):
     await ctx.send('https://discord.gg/bestofus')
 
 
-@bot.command('8ball')
+@bot.command('8ball', help='This will send a random response similar to a Magic 8 Ball')
 async def eight_ball(ctx):
     """
         eight_ball() will send a random response from response_list.
@@ -96,7 +96,7 @@ async def eight_ball(ctx):
     await ctx.send(response)
 
 
-@bot.command('ping')
+@bot.command('ping', help='Pong!')
 async def ping(ctx):
     """
         ping() will send pong to the user.
@@ -104,7 +104,7 @@ async def ping(ctx):
     await ctx.send('pong')
 
 
-@bot.command('tl')
+@bot.command('tl', help='This will send a link to the TL Comic Website')
 async def terminal_lance(ctx):
     """
         terminal_lance() will send a link to the terminal lance comic website.
@@ -112,7 +112,7 @@ async def terminal_lance(ctx):
     await ctx.send('https://terminallance.com')
 
 
-@bot.command('players')
+@bot.command('players', help='This will post the current online plays in EVE Online.')
 async def eve_player_count(ctx):
     """
         eve_player_count() will send the current number of online players in EVE Online.
@@ -123,7 +123,7 @@ async def eve_player_count(ctx):
         await ctx.send(f"There are currently {response['players']} people playing EVE Online.")
 
 
-@bot.command('who')
+@bot.command('who', help='This will look up a specific player in EVE Online')
 async def player_lookup(ctx, args):
     """
         player_lookup() will send information on a provided player
@@ -146,7 +146,7 @@ async def player_lookup(ctx, args):
     await ctx.send(embed=embed)
 
 
-@bot.command('lab')
+@bot.command('lab', help='This will return the top 3 players on the Path of Exile Lab Ladder.')
 async def poe_lab_ladder(ctx):
     """
         poe_lab_ladder() will return the top 3 players on the Path of Exile Lab ladder
@@ -173,7 +173,7 @@ async def poe_lab_ladder(ctx):
     await ctx.send(embed=third_place)
 
 
-@bot.command('dog')
+@bot.command('dog', help='This will post a random picture of a dog.')
 async def dog(ctx):
     """
         dog() will post random pictures of a dog
@@ -184,7 +184,7 @@ async def dog(ctx):
     await ctx.send(dog_json['url'])
 
 
-@bot.command('bored')
+@bot.command('bored', help='This will provide the user with an activity to do.')
 async def bored(ctx):
     """
         bored() will provide the user with an activity to do
@@ -195,7 +195,7 @@ async def bored(ctx):
     await ctx.send(f"You should {activity['activity']}")
 
 
-@bot.command('xkcd')
+@bot.command('xkcd', help='This will post a random xkcd comic.')
 async def xkcd(ctx):
     """
         xkcd() will provide the user with a random xkcd comic.
