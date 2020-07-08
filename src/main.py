@@ -173,5 +173,40 @@ async def poe_lab_ladder(ctx):
     await ctx.send(embed=third_place)
 
 
+@bot.command('dog')
+async def dog(ctx):
+    """
+        dog() will post random pictures of a dog
+    """
+    random_dog = requests.get("https://random.dog/woof.json")
+    dog_json = random_dog.json()
+
+    await ctx.send(dog_json['url'])
+
+
+@bot.command('bored')
+async def bored(ctx):
+    """
+        bored() will provide the user with an activity to do
+    """
+    api_request = requests.get('https://www.boredapi.com/api/activity/')
+    activity = api_request.json()
+
+    await ctx.send(f"You should {activity['activity']}")
+
+
+@bot.command('xkcd')
+async def xkcd(ctx):
+    """
+        xkcd() will provide the user with a random xkcd comic.
+    """
+    random_id = random.randrange(1, 2329)
+    api_request = requests.get(f'https://xkcd.com/{random_id}/info.0.json')
+
+    comic = api_request.json()
+
+    await ctx.send(comic['img'])
+
+
 # This will bring the bot online.
 bot.run(DISCORD_BOT_TOKEN)
