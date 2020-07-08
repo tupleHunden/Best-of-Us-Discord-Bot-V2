@@ -56,6 +56,7 @@ async def chuck_norris(ctx):
 
     if chuck_request.status_code == 200:
         chuck_response = chuck_request.json()
+
         await ctx.send(chuck_response['value'])
 
 
@@ -130,6 +131,7 @@ async def eve_player_count(ctx):
     api_request = requests.get('https://esi.evetech.net/latest/status/?datasource=tranquility')
     if api_request.status_code == 200:
         response = api_request.json()
+
         await ctx.send(f"There are currently {response['players']} people playing EVE Online.")
 
 
@@ -141,19 +143,21 @@ async def player_lookup(ctx, args):
     character_id_search = requests.get(f"https://esi.evetech.net/latest/search/?categories="
                                        f"character&datasource=tranquility&language=en-us&search="
                                        f"{args}&strict=true")
+    if character_id_search.status_code == 200:
+        character_id = character_id_search.json()
 
-    character_id = character_id_search.json()
+        character_name_search = requests.get(f"https://esi.evetech.net/latest/characters/"
+                                             f"{character_id['character'][0]}"
+                                             f"/?datasource=tranquility")
 
-    character_name_search = requests.get(f"https://esi.evetech.net/latest/characters/"
-                                         f"{character_id['character'][0]}/?datasource=tranquility")
+        if character_name_search.status_code == 200:
+            specific_character_name = character_name_search.json()
 
-    specific_character_name = character_name_search.json()
+            zkill = f"https://zkillboard.com/character/{character_id['character'][0]}/"
 
-    zkill = f"https://zkillboard.com/character/{character_id['character'][0]}/"
+            embed = discord.Embed(title=specific_character_name['name'], description=zkill)
 
-    embed = discord.Embed(title=specific_character_name['name'], description=zkill)
-
-    await ctx.send(embed=embed)
+            await ctx.send(embed=embed)
 
 
 @bot.command('lab', help='This will return the top 3 players on the Path of Exile Lab Ladder.')
@@ -164,23 +168,24 @@ async def poe_lab_ladder(ctx):
     api_request = requests.get("http://api.pathofexile.com/ladders/"
                                "League?type=labyrinth&difficulty=Merciless")
 
-    api_json = api_request.json()
+    if api_request.status_code == 200:
+        api_json = api_request.json()
 
-    first_place = discord.Embed(title=f"1st Place\n{api_json['entries'][0]['character']['name']}",
-                                description=f"{api_json['entries'][0]['character']['class']}\n "
-                                            f"Time: {api_json['entries'][0]['time']}")
+        first_place = discord.Embed(title=f"1st Place\n{api_json['entries'][0]['character']['name']}",
+                                    description=f"{api_json['entries'][0]['character']['class']}\n "
+                                                f"Time: {api_json['entries'][0]['time']}")
 
-    second_place = discord.Embed(title=f"2nd Place\n{api_json['entries'][1]['character']['name']}",
-                                 description=f"{api_json['entries'][1]['character']['class']}\n "
-                                             f"Time: {api_json['entries'][1]['time']}")
+        second_place = discord.Embed(title=f"2nd Place\n{api_json['entries'][1]['character']['name']}",
+                                     description=f"{api_json['entries'][1]['character']['class']}\n "
+                                                 f"Time: {api_json['entries'][1]['time']}")
 
-    third_place = discord.Embed(title=f"3rd Place\n{api_json['entries'][2]['character']['name']}",
-                                description=f"{api_json['entries'][2]['character']['class']}\n "
-                                            f"Time: {api_json['entries'][2]['time']}")
+        third_place = discord.Embed(title=f"3rd Place\n{api_json['entries'][2]['character']['name']}",
+                                    description=f"{api_json['entries'][2]['character']['class']}\n "
+                                                f"Time: {api_json['entries'][2]['time']}")
 
-    await ctx.send(embed=first_place)
-    await ctx.send(embed=second_place)
-    await ctx.send(embed=third_place)
+        await ctx.send(embed=first_place)
+        await ctx.send(embed=second_place)
+        await ctx.send(embed=third_place)
 
 
 @bot.command('dog', help='This will post a random picture of a dog.')
@@ -189,9 +194,10 @@ async def dog(ctx):
         dog() will post random pictures of a dog
     """
     random_dog = requests.get("https://random.dog/woof.json")
-    dog_json = random_dog.json()
+    if random_dog.status_code == 200:
+        dog_json = random_dog.json()
 
-    await ctx.send(dog_json['url'])
+        await ctx.send(dog_json['url'])
 
 
 @bot.command('bored', help='This will provide the user with an activity to do.')
@@ -200,9 +206,10 @@ async def bored(ctx):
         bored() will provide the user with an activity to do
     """
     api_request = requests.get('https://www.boredapi.com/api/activity/')
-    activity = api_request.json()
+    if api_request.status_code == 200:
+        activity = api_request.json()
 
-    await ctx.send(f"You should {activity['activity']}")
+        await ctx.send(f"You should {activity['activity']}")
 
 
 @bot.command('xkcd', help='This will post a random xkcd comic.')
@@ -212,10 +219,10 @@ async def xkcd(ctx):
     """
     random_id = random.randrange(1, 2329)
     api_request = requests.get(f'https://xkcd.com/{random_id}/info.0.json')
+    if api_request.status_code == 200:
+        comic = api_request.json()
 
-    comic = api_request.json()
-
-    await ctx.send(comic['img'])
+        await ctx.send(comic['img'])
 
 
 # This will bring the bot online.
