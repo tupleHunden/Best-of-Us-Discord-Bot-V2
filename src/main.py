@@ -34,7 +34,17 @@ async def on_member_join(member):
         on_member_join() will send a direct message to all new users welcoming them to Discord.
     """
     await member.create_dm()
-    await member.dm_channel.send(f'Hi {member.name}, welcome to my Discord server!')
+    await member.dm_channel.send(f'Hello {member.name}, welcome to Best of Us!  '
+                                 f'You should read our #server-info, #announcements, #suggestions, '
+                                 f'and #welcome-mat channels to get familiar with things. '
+                                 f'Check out #server-info first, it will guide you through some '
+                                 f'information about us and how the server works. '
+                                 f' When you feel comfortable with the rules, '
+                                 f'check out #welcome-mat to get your roles set up.  Just ping '
+                                 f'Alch or any other Admin for roles and we can get you sorted. '
+                                 f'If you have any questions at all, please let one of the admins '
+                                 f'know, we are at the top of the member list.'
+                                 f'Thanks! ~Alchemist8')
 
 
 @bot.command('chuck', help="This will provide the user with a random chuck norris joke")
